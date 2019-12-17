@@ -27,22 +27,29 @@ import XMonad.Util.NamedScratchpad
 import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Util.Run(safeSpawn, spawnPipe)
 
--- action
+-- actions
 import XMonad.Actions.SpawnOn
+import XMonad.Actions.Navigation2D
 
 -------------------------------------------------------------------------------
 
 -- Main Function
 main = do
-        xmproc <- spawnPipe ("xmobar $HOME/.xmobarrc/xmobarrc")
-        xmonad $ ewmh $ docks $ fullscreenSupport $ defaultConfig {
-                  modMask = mod4Mask
-                , keys = myKeys
-                , layoutHook = myLayout
-                , manageHook = myManageHook
-                , startupHook = myStartupHook
-                , workspaces = myWorkspaces'
-                , logHook = dynamicLogWithPP $ defaultPP {ppOutput = hPutStrLn xmproc}}
+        xmproc  <- spawnPipe ("xmobar $HOME/.xmobarrc/xmobarrc")
+        xmonad  $ ewmh
+                $ docks
+                $ fullscreenSupport
+                $ withNavigation2DConfig myNav2DConfig
+                defaultConfig
+                    {
+                      modMask     = mod4Mask
+                    , keys        = myKeys
+                    , layoutHook  = myLayout
+                    , manageHook  = myManageHook
+                    , startupHook = myStartupHook
+                    , workspaces  = myWorkspaces'
+                    , logHook     = dynamicLogWithPP $ defaultPP {ppOutput = hPutStrLn xmproc}
+                    }
 
 -------------------------------------------------------------------------------
 
@@ -50,17 +57,30 @@ main = do
 myLayout = myLayoutPerWorkspace $ toggleLayouts fullscreen grid
         where
             fullscreen = named "FullNB" (noBorders (fullscreenFull Full))
-            grid = named "GridSS" (smartBorders $ avoidStruts $ smartSpacing 5 Grid )
+            grid       = named "GridSS" (smartBorders $ avoidStruts $ smartSpacing 5 Grid )
 
             myLayoutPerWorkspace = onWorkspace "1" $ toggleLayouts fullscreen grid2
                     where
                         grid2 = named "GridS" (smartBorders $ avoidStruts $ spacing 5 Grid)
 
+-------------------------------------------------------------------------------
+
+-- Navigation Layout
+myNav2DConfig = def
+        {
+          defaultTiledNavigation = centerNavigation
+        , floatNavigation        = centerNavigation
+        , layoutNavigation       = [("Full", centerNavigation)]
+        , unmappedWindowRect     = [("Full", singleWindowRect)]
+        }
+
+-------------------------------------------------------------------------------
+
 -- Workspaces
-myWorkspaces = [  (xK_1, "1"), (xK_2, "2"), (xK_3, "3"), (xK_4, "4"), (xK_5, "5")
-                , (xK_6, "6"), (xK_7, "7"), (xK_8, "8"), (xK_9, "9")
-                , (xK_n, "Firefox"), (xK_a, "Anki e Estudos")
-                , (xK_c, "League of Legends Client"), (xK_g, "League of Legends Game")  ]
+myWorkspaces = [ (xK_1, "1"), (xK_2, "2"), (xK_3, "3"), (xK_4, "4"), (xK_5, "5")
+               , (xK_6, "6"), (xK_7, "7"), (xK_8, "8"), (xK_9, "9")
+               , (xK_n, "Firefox"), (xK_a, "Anki e Estudos")
+               , (xK_c, "League of Legends Client"), (xK_g, "League of Legends Game") ]
 
 myWorkspaces' = (map snd myWorkspaces)
 
@@ -87,7 +107,7 @@ myKeys conf@(XConfig {modMask = modMask}) = M.fromList $
         , ((modMask,               xK_d                    ), spawn "dmenu_run")
 
         -- restart xmonad
-        , ((modMask .|. shiftMask, xK_r                    ), spawn "xmonad --recompile && xmonad --restart")
+        , ((modMask .|.            shiftMask, xK_r         ), spawn "xmonad --recompile && xmonad --restart")
 
         -- Toggle fullscreen
         , ((modMask,               xK_f                    ), sendMessage (Toggle "FullNB"))
@@ -100,12 +120,24 @@ myKeys conf@(XConfig {modMask = modMask}) = M.fromList $
         , ((0,                     xF86XK_AudioRaiseVolume ), spawn "pactl set-sink-volume @DEFAULT_SINK@ +10%")
         , ((0,                     xF86XK_AudioLowerVolume ), spawn "pactl set-sink-volume @DEFAULT_SINK@ -10%")
 
+        -- move focus
+        , ((modMask,               xK_k                    ), windowGo U False)
+        , ((modMask,               xK_h                    ), windowGo L False)
+        , ((modMask,               xK_j                    ), windowGo D False)
+        , ((modMask,               xK_l                    ), windowGo R False)
+
+        -- move windows
+        , ((modMask .|. shiftMask, xK_k                    ), windowSwap U False)
+        , ((modMask .|. shiftMask, xK_h                    ), windowSwap L False)
+        , ((modMask .|. shiftMask, xK_j                    ), windowSwap D False)
+        , ((modMask .|. shiftMask, xK_l                    ), windowSwap R False)
+
         -- Killing focused window
-        , ((modMask,               xK_BackSpace          ), kill) ]
+        , ((modMask,               xK_BackSpace            ), kill) ]
 
         -- use mod+keysym to move to the workspace
         ++ [ ((modMask, key), (windows $ W.greedyView ws))
-                | (key,ws) <- myWorkspaces ] 
+                | (key,ws) <- myWorkspaces ]
 
         -- use mod+shift+keysym to move a window to the workspace
         ++ [ ((modMask .|. shiftMask, key), (windows $ W.shift ws))
