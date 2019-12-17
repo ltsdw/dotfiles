@@ -40,7 +40,7 @@ main = do
                 $ docks
                 $ fullscreenSupport
                 $ withNavigation2DConfig myNav2DConfig
-                defaultConfig
+                $ defaultConfig
                     {
                       modMask     = mod4Mask
                     , keys        = myKeys
