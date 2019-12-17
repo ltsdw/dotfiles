@@ -77,10 +77,12 @@ myNav2DConfig = def
 -------------------------------------------------------------------------------
 
 -- Workspaces
-myWorkspaces = [ (xK_1, "1"), (xK_2, "2"), (xK_3, "3"), (xK_4, "4"), (xK_5, "5")
+myWorkspaces = [
+                 (xK_1, "1"), (xK_2, "2"), (xK_3, "3"), (xK_4, "4"), (xK_5, "5")
                , (xK_6, "6"), (xK_7, "7"), (xK_8, "8"), (xK_9, "9")
                , (xK_n, "Firefox"), (xK_a, "Anki e Estudos")
-               , (xK_c, "League of Legends Client"), (xK_g, "League of Legends Game") ]
+               , (xK_c, "League of Legends Client"), (xK_g, "League of Legends Game")
+               ]
 
 myWorkspaces' = (map snd myWorkspaces)
 
@@ -88,20 +90,23 @@ myWorkspaces' = (map snd myWorkspaces)
 
 -- Rules
 myManageHook = composeAll
-        [ isFullscreen                                                      --> doFullFloat
+        [
+          isFullscreen                                                      --> doFullFloat
         , className =? "St"                                                 --> doShift "1"
         , className =? "firefox"                                            --> (hasBorder False <+> doShift "Firefox")
         , className =? "Anki"                                               --> doShift "Anki e Estudos"
         , (className =? "Wine" <&&> appName =? "leagueclientux.exe")        --> (hasBorder False <+> doShift "League of Legends Client")
-        , (className =? "Wine" <&&> appName =? "league of legends.exe")     --> doShift "League of Legends Game" ]
+        , (className =? "Wine" <&&> appName =? "league of legends.exe")     --> doShift "League of Legends Game"
+        ]
 
 -------------------------------------------------------------------------------
 
 -- Keybinds
 myKeys conf@(XConfig {modMask = modMask}) = M.fromList $
- 
-	-- terminal
-        [ ((modMask,               xK_t                    ), spawn "st")
+
+        -- terminal
+        [
+          ((modMask,               xK_t                    ), spawn "st")
 
         -- dmenu
         , ((modMask,               xK_d                    ), spawn "dmenu_run")
@@ -133,15 +138,22 @@ myKeys conf@(XConfig {modMask = modMask}) = M.fromList $
         , ((modMask .|. shiftMask, xK_l                    ), windowSwap R False)
 
         -- kill focused window
-        , ((modMask,               xK_BackSpace            ), kill) ]
+        , ((modMask,               xK_BackSpace            ), kill)
+        ]
 
         -- use mod+keysym to move to the workspace
-        ++ [ ((modMask, key), (windows $ W.greedyView ws))
-                | (key,ws) <- myWorkspaces ]
+        ++
+        [
+          ((modMask, key), (windows $ W.greedyView ws))
+                | (key,ws) <- myWorkspaces
+        ]
 
         -- use mod+shift+keysym to move a window to the workspace
-        ++ [ ((modMask .|. shiftMask, key), (windows $ W.shift ws))
-                | (key,ws) <- myWorkspaces ]
+        ++
+        [
+          ((modMask .|. shiftMask, key), (windows $ W.shift ws))
+                | (key,ws) <- myWorkspaces
+        ]
 
 -------------------------------------------------------------------------------
 
