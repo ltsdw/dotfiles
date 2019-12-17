@@ -36,7 +36,7 @@ import XMonad.Actions.SpawnOn
 main = do
         xmproc <- spawnPipe ("xmobar $HOME/.xmobarrc/xmobarrc")
         xmonad $ ewmh $ docks $ fullscreenSupport $ defaultConfig {
-                  modMask= mod4Mask
+                  modMask = mod4Mask
                 , keys = myKeys
                 , layoutHook = myLayout
                 , manageHook = myManageHook
