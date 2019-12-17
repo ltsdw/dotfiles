@@ -106,17 +106,17 @@ myKeys conf@(XConfig {modMask = modMask}) = M.fromList $
         -- dmenu
         , ((modMask,               xK_d                    ), spawn "dmenu_run")
 
-        -- restart xmonad
+        -- recompile and restart xmonad
         , ((modMask .|. shiftMask, xK_r                    ), spawn "xmonad --recompile && xmonad --restart")
 
-        -- Toggle fullscreen
+        -- toggle fullscreen
         , ((modMask,               xK_f                    ), sendMessage (Toggle "FullNB"))
 
-        -- Bright
+        -- bright
         , ((0,                     xF86XK_MonBrightnessUp  ), spawn "xbacklight +5")
         , ((0,                     xF86XK_MonBrightnessDown), spawn "xbacklight -5")
 
-        -- Volume
+        -- volume
         , ((0,                     xF86XK_AudioRaiseVolume ), spawn "pactl set-sink-volume @DEFAULT_SINK@ +10%")
         , ((0,                     xF86XK_AudioLowerVolume ), spawn "pactl set-sink-volume @DEFAULT_SINK@ -10%")
 
@@ -132,7 +132,7 @@ myKeys conf@(XConfig {modMask = modMask}) = M.fromList $
         , ((modMask .|. shiftMask, xK_j                    ), windowSwap D False)
         , ((modMask .|. shiftMask, xK_l                    ), windowSwap R False)
 
-        -- Killing focused window
+        -- kill focused window
         , ((modMask,               xK_BackSpace            ), kill) ]
 
         -- use mod+keysym to move to the workspace
@@ -145,7 +145,7 @@ myKeys conf@(XConfig {modMask = modMask}) = M.fromList $
 
 -------------------------------------------------------------------------------
 
--- StartHook
+-- StartupHook
 myStartupHook = do
         spawn "picom --config $HOME/.config/picom/compton.conf"
         spawnOnce "feh --no-fehbg --bg-fill /usr/share/backgrounds/Riven-Picture.png"
