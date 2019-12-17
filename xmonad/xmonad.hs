@@ -107,7 +107,7 @@ myKeys conf@(XConfig {modMask = modMask}) = M.fromList $
         , ((modMask,               xK_d                    ), spawn "dmenu_run")
 
         -- restart xmonad
-        , ((modMask .|.            shiftMask, xK_r         ), spawn "xmonad --recompile && xmonad --restart")
+        , ((modMask .|. shiftMask, xK_r                    ), spawn "xmonad --recompile && xmonad --restart")
 
         -- Toggle fullscreen
         , ((modMask,               xK_f                    ), sendMessage (Toggle "FullNB"))
