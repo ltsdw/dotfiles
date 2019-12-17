@@ -160,6 +160,6 @@ myKeys conf@(XConfig {modMask = modMask}) = M.fromList $
 -- StartupHook
 myStartupHook = do
         spawn "picom --config $HOME/.config/picom/compton.conf"
-        spawnOnce "feh --no-fehbg --bg-fill /usr/share/backgrounds/Riven-Picture.png"
+        spawnOnce "feh --no-fehbg --bg-fill $HOME/.backgrounds/Riven-Picture.png"
 
 -------------------------------------------------------------------------------
