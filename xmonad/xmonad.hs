@@ -35,7 +35,7 @@ import XMonad.Actions.Navigation2D
 
 -- Main Function
 main = do
-        xmproc  <- spawnPipe ("xmobar $HOME/.xmobarrc/xmobarrc")
+        xmproc <- spawnPipe ("xmobar $HOME/.xmobarrc/xmobarrc")
         xmonad  $ ewmh
                 $ docks
                 $ fullscreenSupport
@@ -48,10 +48,19 @@ main = do
                     , manageHook  = myManageHook
                     , startupHook = myStartupHook
                     , workspaces  = myWorkspaces'
-                    , logHook     = dynamicLogWithPP $ defaultPP {ppOutput = hPutStrLn xmproc}
+                    , logHook     = dynamicLogWithPP $ myPP { ppOutput = hPutStrLn xmproc }
                     }
 
 -------------------------------------------------------------------------------
+
+myPP = def
+        {
+          ppCurrent = xmobarColor "#ffffff" "" . wrap "|" "|"
+        , ppHidden  = xmobarColor "#6d6d6d" ""
+        , ppLayout  = xmobarColor "#6d6d6d" ""
+        , ppTitle   = xmobarColor "#6d6d6d" "" . shorten 20
+--        , ppUrgent  = xmobarColor ""
+        }
 
 -- Layout
 myLayout = myLayoutPerWorkspace $ toggleLayouts fullscreen grid
@@ -116,6 +125,12 @@ myKeys conf@(XConfig {modMask = modMask}) = M.fromList $
 
         -- toggle fullscreen
         , ((modMask,               xK_f                    ), sendMessage (Toggle "FullNB"))
+
+        -- make focused window float
+        , ((modMask .|. shiftMask, xK_t                    ), withFocused $ \w -> floatLocation w >>= windows . W.float w . snd)
+
+        -- put windows back at tile
+        , ((modMask,               xK_t                    ), withFocused $ windows . W.sink)
 
         -- bright
         , ((0,                     xF86XK_MonBrightnessUp  ), spawn "xbacklight +5")
