@@ -1,10 +1,11 @@
 -- vim: set filetype=haskell :
-Config  { font = "xft:NotoSansNabataeanRegular:pixelsize=11"
-        , bgColor = "#040404"
-        , fgColor = "#8b8b8b"
-        , position = Bottom
+Config  { font               = "xft:NotoSansNabataeanRegular:pixelsize=11"
+        , bgColor            = "#040404"
+        , fgColor            = "#8b8b8b"
+        , position           = Bottom
         , alpha              = 200
         , overrideRedirect   = True
+
         , commands = [ Run ThermalZone 1       [ "-t", "<temp> Cº"
                                                , "-L", "50", "-l", "#446866"
                                                , "-H", "80", "-h", "#ff0800"
@@ -51,7 +52,7 @@ Config  { font = "xft:NotoSansNabataeanRegular:pixelsize=11"
                      , Run Com "volume-pulseaudio" [] "myaudio" 10
 
                      , Run StdinReader
-                     , Run Kbd  [("pt_br", "PT"), ("jp", "JP")]
+                     , Run Kbd  [("pt_br", ""), ("jp", "JP")]
                      ]
 
         , sepChar = "%"

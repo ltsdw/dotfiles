@@ -7,6 +7,7 @@ import qualified Data.Map        as M
 -- layout
 import XMonad.Layout.Named
 import XMonad.Layout.Grid
+import XMonad.Layout.Minimize
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.Spacing
 import XMonad.Layout.Fullscreen
@@ -28,6 +29,7 @@ import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Util.Run(safeSpawn, spawnPipe)
 
 -- actions
+import XMonad.Actions.Minimize
 import XMonad.Actions.SpawnOn
 import XMonad.Actions.Navigation2D
 
@@ -41,24 +43,22 @@ main = do
                 $ fullscreenSupport
                 $ withNavigation2DConfig myNav2DConfig
                 $ defaultConfig
-                    {
-                      modMask     = mod4Mask
+                    { modMask     = mod4Mask
                     , keys        = myKeys
                     , layoutHook  = myLayout
                     , manageHook  = myManageHook
                     , startupHook = myStartupHook
                     , workspaces  = myWorkspaces'
-                    , normalBorderColor = normalBorderColor'
+                    , normalBorderColor  = normalBorderColor'
                     , focusedBorderColor = focusedBorderColor'
-                    , logHook     = dynamicLogWithPP $ myPP { ppOutput = hPutStrLn xmproc }
+                    , logHook            = dynamicLogWithPP $ myPP { ppOutput = hPutStrLn xmproc }
                     }
 
 -------------------------------------------------------------------------------
 
 -- Pretty Printing
 myPP = xmobarPP
-        {
-          ppCurrent = xmobarColor "#00ffe6" "" . wrap "  " "  "
+        { ppCurrent = xmobarColor "#00ffe6" "" . wrap "  " "  "
         , ppHidden  = xmobarColor "#6d6d6d" ""
         , ppLayout  = xmobarColor "#6d6d6d" ""
         , ppTitle   = xmobarColor "#6d6d6d" "" . shorten 30
@@ -68,25 +68,26 @@ myPP = xmobarPP
 -------------------------------------------------------------------------------
 
 -- Border color
-normalBorderColor' = "#8b8b8b"
+normalBorderColor'  = "#8b8b8b"
 focusedBorderColor' = "#00ffcb"
+
+-------------------------------------------------------------------------------
 
 -- Layout
 myLayout = myLayoutPerWorkspace $ toggleLayouts fullscreen grid
         where
-            fullscreen = named "FullNB" (noBorders (fullscreenFull Full))
-            grid       = named "GridSS" (smartBorders $ avoidStruts $ smartSpacing 5 Grid )
+            fullscreen = named "FullNB" (minimize $ noBorders (fullscreenFull Full))
+            grid       = named "GridSS" (minimize $ smartBorders $ avoidStruts $ smartSpacing 5 Grid )
 
             myLayoutPerWorkspace = onWorkspace "1" $ toggleLayouts fullscreen grid2
                     where
-                        grid2 = named "GridS" (smartBorders $ avoidStruts $ spacing 5 Grid)
+                        grid2 = named "GridS" (minimize $ smartBorders $ avoidStruts $ spacing 5 Grid)
 
 -------------------------------------------------------------------------------
 
 -- Navigation Layout
 myNav2DConfig = def
-        {
-          defaultTiledNavigation = centerNavigation
+        { defaultTiledNavigation = centerNavigation
         , floatNavigation        = centerNavigation
         , layoutNavigation       = [("Full", centerNavigation)]
         , unmappedWindowRect     = [("Full", singleWindowRect)]
@@ -95,8 +96,7 @@ myNav2DConfig = def
 -------------------------------------------------------------------------------
 
 -- Workspaces
-myWorkspaces = [
-                 (xK_1, "1"), (xK_2, "2"), (xK_3, "3"), (xK_4, "4"), (xK_5, "5")
+myWorkspaces = [ (xK_1, "1"), (xK_2, "2"), (xK_3, "3"), (xK_4, "4"), (xK_5, "5")
                , (xK_6, "6"), (xK_7, "7"), (xK_8, "8"), (xK_9, "9")
                , (xK_n, "Firefox"), (xK_a, "Anki e Estudos")
                , (xK_c, "League of Legends Client"), (xK_g, "League of Legends Game")
@@ -108,8 +108,7 @@ myWorkspaces' = (map snd myWorkspaces)
 
 -- Rules
 myManageHook = composeAll
-        [
-          isFullscreen                                                      --> doFullFloat
+        [ isFullscreen                                                      --> doFullFloat
         , className =? "St"                                                 --> doShift "1"
         , className =? "firefox"                                            --> (hasBorder False <+> doShift "Firefox")
         , className =? "Anki"                                               --> doShift "Anki e Estudos"
@@ -123,8 +122,7 @@ myManageHook = composeAll
 myKeys conf@(XConfig {modMask = modMask}) = M.fromList $
 
         -- terminal
-        [
-          ((modMask,               xK_t                    ), spawn "st")
+        [ ((modMask,               xK_t                    ), spawn "st")
 
         -- dmenu
         , ((modMask,               xK_d                    ), spawn "dmenu_run")
@@ -140,6 +138,10 @@ myKeys conf@(XConfig {modMask = modMask}) = M.fromList $
 
         -- put windows back at tile
         , ((modMask,               xK_space                ), withFocused $ windows . W.sink)
+
+        -- minimize and maximize a window
+        , ((modMask,               xK_KP_Subtract          ), withFocused minimizeWindow)
+        , ((modMask,               xK_KP_Add               ), withLastMinimized maximizeWindowAndFocus)
 
         -- bright
         , ((0,                     xF86XK_MonBrightnessUp  ), spawn "xbacklight +5")
@@ -171,15 +173,13 @@ myKeys conf@(XConfig {modMask = modMask}) = M.fromList $
 
         -- use mod+keysym to move to the workspace
         ++
-        [
-          ((modMask, key), (windows $ W.greedyView ws))
+        [ ((modMask, key), (windows $ W.greedyView ws))
                 | (key,ws) <- myWorkspaces
         ]
 
         -- use mod+shift+keysym to move a window to the workspace
         ++
-        [
-          ((modMask .|. shiftMask, key), (windows $ W.shift ws))
+        [ ((modMask .|. shiftMask, key), (windows $ W.shift ws))
                 | (key,ws) <- myWorkspaces
         ]
 
