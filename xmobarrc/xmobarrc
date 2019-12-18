@@ -1,5 +1,5 @@
 -- vim: set filetype=haskell :
-Config  { font               = "xft:HanaMinA:Bold:pixelsize=10, xtf:NotoSansNabataean:Regular:pixelsize=11, xtf:DroidSansJapanese::pixelsize=11"
+Config  { font               = "xft:HanaMinA:Black:pixelsize=10, xtf:NotoSansNabataean:Regular:pixelsize=11, xtf:DroidSansJapanese::pixelsize=11"
         , bgColor            = "#040404"
         , fgColor            = "#8b8b8b"
         , position           = Bottom
@@ -57,5 +57,5 @@ Config  { font               = "xft:HanaMinA:Bold:pixelsize=10, xtf:NotoSansNaba
 
         , sepChar = "%"
         , alignSep = "}{"
-        , template = "%StdinReader% }{ %thermal1%<fc=#00fbff>∵</fc>CPU: %multicpu%<fc=#00fbff>∵</fc>%memory% - %swap%<fc=#00fbff>∵</fc>%enp0s20u1% - %wlp3s0%<fc=#00fbff>∵</fc>%myaudio%<fc=#00fbff>∵</fc>%mydate%<fc=#00fbff>∵</fc><fc=#bcbcbc>%kbd%</fc><fc=#00fbff>∵</fc>[%battery%]" 
+        , template = "%StdinReader% }{ %thermal1%<fc=#00fbff> ∵ </fc>CPU: %multicpu%<fc=#00fbff> ∵ </fc>%memory% - %swap%<fc=#00fbff> ∵ </fc>%enp0s20u1% - %wlp3s0%<fc=#00fbff> ∵ </fc>%myaudio%<fc=#00fbff> ∵ </fc>%mydate%<fc=#00fbff> ∵ </fc><fc=#bcbcbc>%kbd%</fc><fc=#00fbff> ∵ </fc>[%battery%]" 
         }
