@@ -187,8 +187,8 @@ myKeys conf@(XConfig {modMask = modMask}) = M.fromList $
 
 -- StartupHook
 myStartupHook = do
-        spawn "picom --config $HOME/.config/picom/compton.conf"
-        spawnOnce "feh --no-fehbg --bg-fill $HOME/.backgrounds/Riven-Picture.png"
+        spawn "picom --config ~/.config/picom/compton.conf"
+        spawnOnce "feh --no-fehbg --bg-fill ~/.backgrounds/Riven-Picture.png"
         spawnOnce "xsetroot -cursor_name left_ptr"
 
 -------------------------------------------------------------------------------
