@@ -55,11 +55,11 @@ main = do
 
 myPP = def
         {
-          ppCurrent = xmobarColor "#ffffff" "" . wrap "|" "|"
+          ppCurrent = xmobarColor "#00ffe6" "" . wrap "  " "  "
         , ppHidden  = xmobarColor "#6d6d6d" ""
         , ppLayout  = xmobarColor "#6d6d6d" ""
-        , ppTitle   = xmobarColor "#6d6d6d" "" . shorten 20
---        , ppUrgent  = xmobarColor ""
+        , ppTitle   = xmobarColor "#6d6d6d" "" . shorten 30
+        , ppUrgent  = xmobarColor "#ff0000" ""
         }
 
 -- Layout
@@ -127,10 +127,10 @@ myKeys conf@(XConfig {modMask = modMask}) = M.fromList $
         , ((modMask,               xK_f                    ), sendMessage (Toggle "FullNB"))
 
         -- make focused window float
-        , ((modMask .|. shiftMask, xK_t                    ), withFocused $ \w -> floatLocation w >>= windows . W.float w . snd)
+        , ((modMask .|. shiftMask, xK_space                ), withFocused $ \w -> floatLocation w >>= windows . W.float w . snd)
 
         -- put windows back at tile
-        , ((modMask,               xK_t                    ), withFocused $ windows . W.sink)
+        , ((modMask,               xK_space                ), withFocused $ windows . W.sink)
 
         -- bright
         , ((0,                     xF86XK_MonBrightnessUp  ), spawn "xbacklight +5")
@@ -152,7 +152,7 @@ myKeys conf@(XConfig {modMask = modMask}) = M.fromList $
         , ((modMask .|. shiftMask, xK_j                    ), windowSwap D False)
         , ((modMask .|. shiftMask, xK_l                    ), windowSwap R False)
 
-        -- kill focused window
+        -- close focused window
         , ((modMask,               xK_BackSpace            ), kill)
         ]
 
@@ -176,5 +176,6 @@ myKeys conf@(XConfig {modMask = modMask}) = M.fromList $
 myStartupHook = do
         spawn "picom --config $HOME/.config/picom/compton.conf"
         spawnOnce "feh --no-fehbg --bg-fill $HOME/.backgrounds/Riven-Picture.png"
+        spawnOnce "xsetroot -cursor_name left_ptr"
 
 -------------------------------------------------------------------------------
