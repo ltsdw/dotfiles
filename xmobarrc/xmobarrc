@@ -52,7 +52,7 @@ Config  { font               = "xft:NotoSansNabataeanRegular:pixelsize=11"
                      , Run Com "volume-pulseaudio" [] "myaudio" 10
 
                      , Run StdinReader
-                     , Run Kbd  [("pt_br", ""), ("jp", "JP")]
+                     , Run Kbd  [("pt_br", "jp")]
                      ]
 
         , sepChar = "%"
