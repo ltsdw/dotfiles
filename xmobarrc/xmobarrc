@@ -11,14 +11,12 @@ Config  { font = "xft:NotoSansNabataeanRegular:pixelsize=11"
                                                , "-n", "#f6ff00"
                                                ] 30
 
-                     , Run Network "enp0s20u1" [ "-L", "0"
-                                               , "-H", "32", "-h", "#ff0800"
-                                               , "-n", "#04e715"
+                     , Run Network "enp0s20u1" [ "-L", "40", "-l", "#446866"
+                                               , "-H", "50", "-h", "#04e715"
                                                ] 10
 
-                     , Run Network "wlp3s0"    [ "-L", "0"
-                                               , "-H", "32", "-h", "#ff0800"
-                                               , "-n", "#04e715"
+                     , Run Network "wlp3s0"    [ "-L", "40", "-l", "#446866"
+                                               , "-H", "50", "-h", "#04e715"
                                                ] 10
 
                      , Run Memory              [ "-t", "RAM: <used>/<total>"
