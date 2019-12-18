@@ -57,5 +57,5 @@ Config  { font               = "xft:HanaMinA:Black:pixelsize=10, xtf:NotoSansNab
 
         , sepChar = "%"
         , alignSep = "}{"
-        , template = "%StdinReader% }{ %thermal1%<fc=#00fbff> ∵ </fc>CPU: %multicpu%<fc=#00fbff> ∵ </fc>%memory% - %swap%<fc=#00fbff> ∵ </fc>%enp0s20u1% - %wlp3s0%<fc=#00fbff> ∵ </fc>%myaudio%<fc=#00fbff> ∵ </fc>%mydate%<fc=#00fbff> ∵ </fc><fc=#bcbcbc>%kbd%</fc><fc=#00fbff> ∵ </fc>[%battery%]" 
+        , template = "%StdinReader% }{ %thermal1%<fc=#00fbff> 〱 </fc>CPU: %multicpu%<fc=#00fbff> 〱 </fc>%memory% - %swap%<fc=#00fbff> 〱 </fc>%enp0s20u1% - %wlp3s0%<fc=#00fbff> 〱 </fc>%myaudio%<fc=#00fbff> 〱 </fc>%mydate%<fc=#00fbff> 〱 </fc><fc=#bcbcbc>%kbd%</fc><fc=#00fbff> 〱 </fc>[%battery%]" 
         }
