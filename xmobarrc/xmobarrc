@@ -1,5 +1,5 @@
 -- vim: set filetype=haskell :
-Config  { font = "xft:NotoSansNabataenRegular:pixelsize=10"
+Config  { font = "xft:NotoSansNabataeanRegular:pixelsize=11"
         , bgColor = "#040404"
         , fgColor = "#8b8b8b"
         , position = Bottom
