@@ -24,7 +24,6 @@ import XMonad.Hooks.UrgencyHook
 
 -- utils
 import XMonad.Util.SpawnOnce
-import XMonad.Util.NamedScratchpad
 import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Util.Run(safeSpawn, spawnPipe)
 
