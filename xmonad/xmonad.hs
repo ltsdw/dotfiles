@@ -48,12 +48,15 @@ main = do
                     , manageHook  = myManageHook
                     , startupHook = myStartupHook
                     , workspaces  = myWorkspaces'
+                    , normalBorderColor = normalBorderColor'
+                    , focusedBorderColor = focusedBorderColor'
                     , logHook     = dynamicLogWithPP $ myPP { ppOutput = hPutStrLn xmproc }
                     }
 
 -------------------------------------------------------------------------------
 
-myPP = def
+-- Pretty Printing
+myPP = xmobarPP
         {
           ppCurrent = xmobarColor "#00ffe6" "" . wrap "  " "  "
         , ppHidden  = xmobarColor "#6d6d6d" ""
@@ -61,6 +64,12 @@ myPP = def
         , ppTitle   = xmobarColor "#6d6d6d" "" . shorten 30
         , ppUrgent  = xmobarColor "#ff0000" ""
         }
+
+-------------------------------------------------------------------------------
+
+-- Border color
+normalBorderColor' = "#8b8b8b"
+focusedBorderColor' = "#00ffcb"
 
 -- Layout
 myLayout = myLayoutPerWorkspace $ toggleLayouts fullscreen grid
@@ -151,6 +160,10 @@ myKeys conf@(XConfig {modMask = modMask}) = M.fromList $
         , ((modMask .|. shiftMask, xK_h                    ), windowSwap L False)
         , ((modMask .|. shiftMask, xK_j                    ), windowSwap D False)
         , ((modMask .|. shiftMask, xK_l                    ), windowSwap R False)
+
+        -- screenshot
+        , ((0,                     xK_Print                ), spawn "sleep 0.2 && scrot -q 100 '%d-%m-%Y-%H:%M:%S_$wx$h_screenshot.png' -e 'mv $f ~/PrintScreens'")
+        , ((controlMask,           xK_Print                ), spawn "sleep 0.2 && scrot -s -q 100 -f '%d-%m-%Y-%H:%M:%S_$wx$h_screenshot.png' -e 'mv $f ~/PrintScreens'")
 
         -- close focused window
         , ((modMask,               xK_BackSpace            ), kill)
