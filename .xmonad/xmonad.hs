@@ -64,7 +64,7 @@ myPP = xmobarPP
         , ppTitle   = xmobarColor "#6d6d6d" "" . shorten 30
         , ppUrgent  = xmobarColor "#ff0000" ""
         }
-        
+ 
 -------------------------------------------------------------------------------
 
 -- Border color
