@@ -118,9 +118,9 @@ myManageHook = composeAll
         , className  =? "St"                                                 --> doShift "1"
         , className  =? "firefox"                                            --> doShift "Firefox"
         , className  =? "Anki"                                               --> doShift "Anki e Estudos"
-        , className  =? "Wine"                                               --> hasBorder False
+        , className  =? "Wine"                                               --> hasBorder False <+> doFullFloat
         , (className =? "Wine" <&&> appName =? "leagueclientux.exe")         --> hasBorder False <+> doShift "League of Legends Client"
-        , (className =? "Wine" <&&> appName =? "league of legends.exe")      --> hasBorder False <+> doShift "League of Legends Game"
+        , (className =? "Wine" <&&> appName =? "league of legends.exe")      --> hasBorder False <+> doFullFloat <+> doShift "League of Legends Game"
         ]
 
 -------------------------------------------------------------------------------
