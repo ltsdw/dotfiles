@@ -10,7 +10,7 @@ import XMonad.Layout.Grid
 import XMonad.Layout.Minimize(minimize)
 import XMonad.Layout.PerWorkspace(onWorkspace)
 import XMonad.Layout.Spacing
-import XMonad.Layout.Fullscreen
+import XMonad.Layout.Fullscreen(fullscreenSupport, fullscreenFull, fullscreenFloat)
 import XMonad.Layout.NoBorders
 import XMonad.Layout.ToggleLayouts
 
@@ -82,12 +82,13 @@ gaps' i = spacingRaw False (Border i i i i) True (Border i i i i) True
 myLayout = toggleLayouts fullscreen myLayoutPerWorkspace
         where
                 myLayoutPerWorkspace = onWorkspace "1" grid2 $
-                                       onWorkspace "League of Legends Game" fullscreen
+                                       onWorkspace "League of Legends Game" fullscreen'
                                        grid
 
-                fullscreen = named "FullNB" (minimize $ noBorders (fullscreenFull Full))
-                grid       = named "GridSS" (minimize $ smartBorders $ avoidStruts $ gaps 5 Grid)
-                grid2      = named "GridS"  (minimize $ smartBorders $ avoidStruts $ gaps' 5 Grid)
+                fullscreen  = named "FullNB" (minimize $ noBorders (fullscreenFull Full))
+                fullscreen' = named "FullF"  (minimize $ noBorders (fullscreenFloat Full))
+                grid        = named "GridSS" (minimize $ smartBorders $ avoidStruts $ gaps 5 Grid)
+                grid2       = named "GridS"  (minimize $ smartBorders $ avoidStruts $ gaps' 5 Grid)
 
 -------------------------------------------------------------------------------
 
@@ -118,9 +119,8 @@ myManageHook = composeAll
         , className  =? "St"                                                 --> doShift "1"
         , className  =? "firefox"                                            --> doShift "Firefox"
         , className  =? "Anki"                                               --> doShift "Anki e Estudos"
-        , className  =? "Wine"                                               --> hasBorder False <+> doFullFloat
-        , (className =? "Wine" <&&> appName =? "leagueclientux.exe")         --> hasBorder False <+> doShift "League of Legends Client"
-        , (className =? "Wine" <&&> appName =? "league of legends.exe")      --> hasBorder False <+> doFullFloat <+> doShift "League of Legends Game"
+        , (className =? "Wine" <&&> appName =? "leagueclientux.exe")         --> doShift "League of Legends Client" <+> hasBorder False
+        , (className =? "Wine" <&&> appName =? "league of legends.exe")      --> doShift "League of Legends Game" <+> hasBorder False
         ]
 
 -------------------------------------------------------------------------------
