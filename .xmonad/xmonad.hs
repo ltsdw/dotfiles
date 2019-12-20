@@ -13,7 +13,6 @@ import XMonad.Layout.Spacing
 import XMonad.Layout.Fullscreen
 import XMonad.Layout.NoBorders
 import XMonad.Layout.ToggleLayouts
---import XMonad.Layout.MultiToggle.Instances
 
 -- hooks
 import XMonad.Hooks.DynamicLog(dynamicLogWithPP, defaultPP, wrap, xmobarPP, xmobarColor, shorten, ppOutput, ppCurrent, ppHidden, ppLayout, ppTitle, ppUrgent)
@@ -117,11 +116,11 @@ myWorkspaces' = (map snd myWorkspaces)
 myManageHook = composeAll
         [ isFullscreen                                                       --> doFullFloat
         , className  =? "St"                                                 --> doShift "1"
-        , className  =? "firefox"                                            --> (hasBorder False <+> doShift "Firefox")
+        , className  =? "firefox"                                            --> hasBorder False <+> doShift "Firefox"
         , className  =? "Anki"                                               --> doShift "Anki e Estudos"
         , className  =? "Wine"                                               --> hasBorder False
-        , (className =? "Wine" <&&> appName =? "leagueclientux.exe")         --> (hasBorder False <+> doShift "League of Legends Client")
-        , (className =? "Wine" <&&> appName =? "league of legends.exe")      --> (doFullFloat <+> doShift "League of Legends Game")
+        , (className =? "Wine" <&&> appName =? "leagueclientux.exe")         --> hasBorder False <+> doShift "League of Legends Client"
+        , (className =? "Wine" <&&> appName =? "league of legends.exe")      --> hasBorder False <+> doShift "League of Legends Game"
         ]
 
 -------------------------------------------------------------------------------
