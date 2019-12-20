@@ -116,7 +116,7 @@ myWorkspaces' = (map snd myWorkspaces)
 myManageHook = composeAll
         [ isFullscreen                                                       --> doFullFloat
         , className  =? "St"                                                 --> doShift "1"
-        , className  =? "firefox"                                            --> hasBorder False <+> doShift "Firefox"
+        , className  =? "firefox"                                            --> doShift "Firefox"
         , className  =? "Anki"                                               --> doShift "Anki e Estudos"
         , className  =? "Wine"                                               --> hasBorder False
         , (className =? "Wine" <&&> appName =? "leagueclientux.exe")         --> hasBorder False <+> doShift "League of Legends Client"
