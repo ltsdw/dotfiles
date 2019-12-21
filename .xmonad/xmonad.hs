@@ -9,7 +9,7 @@ import XMonad.Layout.Named(named)
 import XMonad.Layout.Grid
 import XMonad.Layout.Minimize(minimize)
 import XMonad.Layout.PerWorkspace(onWorkspace)
-import XMonad.Layout.Spacing
+import XMonad.Layout.Spacing(spacingRaw, Border(Border))
 import XMonad.Layout.Fullscreen(fullscreenSupport, fullscreenFull, fullscreenFloat)
 import XMonad.Layout.NoBorders
 import XMonad.Layout.ToggleLayouts
@@ -27,7 +27,6 @@ import XMonad.Util.Run(safeSpawn, spawnPipe)
 
 -- actions
 import XMonad.Actions.Minimize
-import XMonad.Actions.SpawnOn
 import XMonad.Actions.Navigation2D
 import qualified XMonad.Actions.FlexibleResize as Flex
 
