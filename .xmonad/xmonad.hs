@@ -7,10 +7,11 @@ import qualified Data.Map        as M
 -- layout
 import XMonad.Layout.Named(named)
 import XMonad.Layout.Grid
+import XMonad.Layout.SimpleFloat
 import XMonad.Layout.Minimize(minimize)
-import XMonad.Layout.PerWorkspace(onWorkspace)
+import XMonad.Layout.PerWorkspace(onWorkspace, onWorkspaces)
 import XMonad.Layout.Spacing(spacingRaw, Border(Border))
-import XMonad.Layout.Fullscreen(fullscreenSupport, fullscreenFull, fullscreenFloat)
+import XMonad.Layout.Fullscreen(fullscreenSupport, fullscreenFull)
 import XMonad.Layout.NoBorders
 import XMonad.Layout.ToggleLayouts
 
@@ -81,11 +82,11 @@ gaps' i = spacingRaw False (Border i i i i) True (Border i i i i) True
 myLayout = toggleLayouts fullscreen myLayoutPerWorkspace
         where
                 myLayoutPerWorkspace = onWorkspace "1" grid2 $
-                                       onWorkspace "League of Legends Game" fullscreen'
+                                       onWorkspaces ["League of Legends Client", "League of Legends Game"] smfloat
                                        grid
 
                 fullscreen  = named "FullNB" (minimize $ noBorders (fullscreenFull Full))
-                fullscreen' = named "FullF"  (minimize $ noBorders (fullscreenFloat Full))
+                smfloat     = named "SmpF"   (minimize $ smartBorders simpleFloat)
                 grid        = named "GridSS" (minimize $ smartBorders $ avoidStruts $ gaps 5 Grid)
                 grid2       = named "GridS"  (minimize $ smartBorders $ avoidStruts $ gaps' 5 Grid)
 
@@ -118,8 +119,8 @@ myManageHook = composeAll
         , className  =? "St"                                                 --> doShift "1"
         , className  =? "firefox"                                            --> doShift "Firefox"
         , className  =? "Anki"                                               --> doShift "Anki e Estudos"
-        , (className =? "Wine" <&&> appName =? "leagueclientux.exe")         --> doShift "League of Legends Client" <+> hasBorder False
-        , (className =? "Wine" <&&> appName =? "league of legends.exe")      --> doShift "League of Legends Game" <+> hasBorder False
+        , (className =? "Wine" <&&> appName =? "leagueclientux.exe")         --> hasBorder False <+> doShift "League of Legends Client"
+        , (className =? "Wine" <&&> appName =? "league of legends.exe")      --> doShift "League of Legends Game"
         ]
 
 -------------------------------------------------------------------------------
