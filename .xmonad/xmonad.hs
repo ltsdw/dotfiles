@@ -82,11 +82,11 @@ gaps' i = spacingRaw False (Border i i i i) True (Border i i i i) True
 myLayout = toggleLayouts fullscreen myLayoutPerWorkspace
         where
                 myLayoutPerWorkspace = onWorkspace "1" grid2 $
-                                       onWorkspaces ["League of Legends Client", "League of Legends Game"] smfloat
+                                       onWorkspace "League of Legends Game" smfloat
                                        grid
 
                 fullscreen  = named "FullNB" (minimize $ noBorders (fullscreenFull Full))
-                smfloat     = named "SmpF"   (minimize $ smartBorders simpleFloat)
+                smfloat     = named "SmpF"   (minimize $ noBorders simpleFloat)
                 grid        = named "GridSS" (minimize $ smartBorders $ avoidStruts $ gaps 5 Grid)
                 grid2       = named "GridS"  (minimize $ smartBorders $ avoidStruts $ gaps' 5 Grid)
 
@@ -119,8 +119,11 @@ myManageHook = composeAll
         , className  =? "St"                                                 --> doShift "1"
         , className  =? "firefox"                                            --> doShift "Firefox"
         , className  =? "Anki"                                               --> doShift "Anki e Estudos"
-        , (className =? "Wine" <&&> appName =? "leagueclientux.exe")         --> hasBorder False <+> doShift "League of Legends Client"
-        , (className =? "Wine" <&&> appName =? "league of legends.exe")      --> doShift "League of Legends Game"
+        , className  =? "Wine"                                               --> hasBorder False
+        , className  =? "Wine" <&&> appName =? "riotclientux.exe"            --> doShift "League of Legends Client"
+        , className  =? "Wine" <&&> appName =? "leagueclient.exe"            --> doShift "League of Legends Client"
+        , className  =? "Wine" <&&> appName =? "leagueclientux.exe"          --> doShift "League of Legends Client"
+        , className  =? "Wine" <&&> appName =? "league of legends.exe"       --> doShift "League of Legends Game"
         ]
 
 -------------------------------------------------------------------------------
