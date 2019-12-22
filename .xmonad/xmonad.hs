@@ -9,7 +9,7 @@ import XMonad.Layout.Named(named)
 import XMonad.Layout.Grid
 import XMonad.Layout.SimpleFloat
 import XMonad.Layout.Minimize(minimize)
-import XMonad.Layout.PerWorkspace(onWorkspace, onWorkspaces)
+import XMonad.Layout.PerWorkspace(onWorkspace)
 import XMonad.Layout.Spacing(spacingRaw, Border(Border))
 import XMonad.Layout.Fullscreen(fullscreenSupport, fullscreenFull)
 import XMonad.Layout.NoBorders
