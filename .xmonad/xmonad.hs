@@ -17,7 +17,7 @@ import XMonad.Layout.ToggleLayouts
 
 -- hooks
 import XMonad.Hooks.DynamicLog(dynamicLogWithPP, defaultPP, wrap, xmobarPP, xmobarColor, shorten, ppOutput, ppCurrent, ppHidden, ppLayout, ppTitle, ppUrgent)
-import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.EwmhDesktops(ewmh)
 import XMonad.Hooks.ManageDocks(avoidStruts, manageDocks, docks)
 import XMonad.Hooks.ManageHelpers(isFullscreen, doFullFloat)
 import XMonad.Hooks.UrgencyHook
@@ -46,7 +46,6 @@ main = do
                     , mouseBindings      = myMouseBindings
                     , layoutHook         = myLayout
                     , manageHook         = myManageHook
-                    , handleEventHook    = fullscreenEventHook
                     , startupHook        = myStartupHook
                     , workspaces         = myWorkspaces'
                     , normalBorderColor  = normalBorderColor'
