@@ -46,6 +46,7 @@ main = do
                     , mouseBindings      = myMouseBindings
                     , layoutHook         = myLayout
                     , manageHook         = myManageHook
+                    , handleEventHook    = fullscreenEventHook
                     , startupHook        = myStartupHook
                     , workspaces         = myWorkspaces'
                     , normalBorderColor  = normalBorderColor'
