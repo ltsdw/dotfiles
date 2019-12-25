@@ -73,8 +73,8 @@ focusedBorderColor' = "#00ffcb"
 -------------------------------------------------------------------------------
 
 -- Spacing between windows
-gaps i = spacingRaw True (Border i i i i) True (Border i i i i) True
-gaps' i = spacingRaw False (Border i i i i) True (Border i i i i) True
+gaps a b = spacingRaw True (Border a a a a) True (Border b b b b) True
+gaps' a b = spacingRaw False (Border a a a a) True (Border b b b b) True
 
 -------------------------------------------------------------------------------
 
@@ -87,8 +87,8 @@ myLayout = toggleLayouts fullscreen myLayoutPerWorkspace
 
                 fullscreen  = named "FullNB" (minimize $ noBorders (fullscreenFull Full))
                 smfloat     = named "SmpF"   (minimize $ noBorders simpleFloat)
-                grid        = named "GridSS" (minimize $ smartBorders $ avoidStruts $ gaps 5 Grid)
-                grid2       = named "GridS"  (minimize $ smartBorders $ avoidStruts $ gaps' 5 Grid)
+                grid        = named "GridSS" (minimize $ smartBorders $ avoidStruts $ gaps 1 4 Grid)
+                grid2       = named "GridS"  (minimize $ smartBorders $ avoidStruts $ gaps' 1 4 Grid)
 
 -------------------------------------------------------------------------------
 
