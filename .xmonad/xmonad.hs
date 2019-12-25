@@ -12,12 +12,12 @@ import XMonad.Layout.Minimize(minimize)
 import XMonad.Layout.PerWorkspace(onWorkspace)
 import XMonad.Layout.Spacing(spacingRaw, Border(Border))
 import XMonad.Layout.Fullscreen(fullscreenSupport, fullscreenFull)
-import XMonad.Layout.NoBorders
+import XMonad.Layout.NoBorders(noBorders, smartBorders, hasBorder)
 import XMonad.Layout.ToggleLayouts
 
 -- hooks
 import XMonad.Hooks.DynamicLog(dynamicLogWithPP, defaultPP, wrap, xmobarPP, xmobarColor, shorten, ppOutput, ppCurrent, ppHidden, ppLayout, ppTitle, ppUrgent)
-import XMonad.Hooks.EwmhDesktops(ewmh)
+import XMonad.Hooks.EwmhDesktops(ewmh, fullscreenEventHook)
 import XMonad.Hooks.ManageDocks(avoidStruts, manageDocks, docks)
 import XMonad.Hooks.ManageHelpers(isFullscreen, doFullFloat)
 import XMonad.Hooks.UrgencyHook
@@ -46,6 +46,7 @@ main = do
                     , mouseBindings      = myMouseBindings
                     , layoutHook         = myLayout
                     , manageHook         = myManageHook
+                    , handleEventHook    = fullscreenEventHook
                     , startupHook        = myStartupHook
                     , workspaces         = myWorkspaces'
                     , normalBorderColor  = normalBorderColor'
@@ -85,7 +86,7 @@ myLayout = toggleLayouts fullscreen myLayoutPerWorkspace
                                        onWorkspace "League of Legends Game" smfloat
                                        grid
 
-                fullscreen  = named "FullNB" (minimize $ noBorders (fullscreenFull Full))
+                fullscreen  = named "FullNB" (minimize $ smartBorders (fullscreenFull Full))
                 smfloat     = named "SmpF"   (minimize $ noBorders simpleFloat)
                 grid        = named "GridSS" (minimize $ smartBorders $ avoidStruts $ gaps 1 4 Grid)
                 grid2       = named "GridS"  (minimize $ smartBorders $ avoidStruts $ gaps' 1 4 Grid)
