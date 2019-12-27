@@ -203,8 +203,8 @@ myMouseBindings (XConfig {modMask = modMask}) = M.fromList $
         [ ((modMask .|. shiftMask, button1), (\w -> focus w >> mouseMoveWindow w >> windows W.shiftMaster))
 
         -- resize a window
-	    , ((modMask .|. shiftMask, button3), (\w -> focus w >> Flex.mouseResizeWindow w))
-	    ]
+        , ((modMask .|. shiftMask, button3), (\w -> focus w >> Flex.mouseResizeWindow w))
+        ]
 
 -------------------------------------------------------------------------------
 
