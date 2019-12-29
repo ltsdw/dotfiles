@@ -12,7 +12,7 @@ import XMonad.Layout.Minimize(minimize)
 import XMonad.Layout.PerWorkspace(onWorkspace)
 import XMonad.Layout.Spacing(spacingRaw, Border(Border))
 import XMonad.Layout.Fullscreen(fullscreenSupport, fullscreenFull)
-import XMonad.Layout.NoBorders(noBorders, smartBorders, hasBorder)
+import XMonad.Layout.NoBorders(smartBorders, hasBorder)
 import XMonad.Layout.ToggleLayouts
 
 -- hooks
@@ -82,14 +82,14 @@ gaps' a b = spacingRaw False (Border a a a a) True (Border b b b b) True
 -- Layout
 myLayout = toggleLayouts fullscreen myLayoutPerWorkspace
         where
-                myLayoutPerWorkspace = onWorkspace "1" grid2 $
+                myLayoutPerWorkspace = onWorkspace "1" grid' $
                                        onWorkspace "League of Legends Game" smfloat
                                        grid
 
                 fullscreen  = named "FullNB" (minimize $ smartBorders (fullscreenFull Full))
-                smfloat     = named "SmpF"   (minimize $ noBorders simpleFloat)
+                smfloat     = named "SmpF"   (minimize $ smartBorders (fullscreenFull simpleFloat))
                 grid        = named "GridSS" (minimize $ smartBorders $ avoidStruts $ gaps 1 4 Grid)
-                grid2       = named "GridS"  (minimize $ smartBorders $ avoidStruts $ gaps' 1 4 Grid)
+                grid'       = named "GridS"  (minimize $ smartBorders $ avoidStruts $ gaps' 1 4 Grid)
 
 -------------------------------------------------------------------------------
 
