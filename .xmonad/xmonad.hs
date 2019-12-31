@@ -108,6 +108,7 @@ myWorkspaces = [ (xK_1, "1"), (xK_2, "2"), (xK_3, "3"), (xK_4, "4"), (xK_5, "5")
                , (xK_6, "6"), (xK_7, "7"), (xK_8, "8"), (xK_9, "9")
                , (xK_n, "Firefox"), (xK_a, "Anki e Estudos")
                , (xK_c, "League of Legends Client"), (xK_g, "League of Legends Game")
+               , (xK_o, "Origin")
                ]
 
 myWorkspaces' = (map snd myWorkspaces)
@@ -121,6 +122,7 @@ myManageHook = composeAll
         , className  =? "firefox"                                            --> doShift "Firefox"
         , className  =? "Anki"                                               --> doShift "Anki e Estudos"
         , className  =? "Wine"                                               --> hasBorder False
+        , className  =? "Wine" <&&> appName =? "origin.exe"                  --> doFloat <+> doShift "Origin"
         , className  =? "Wine" <&&> appName =? "riotclientux.exe"            --> doShift "League of Legends Client"
         , className  =? "Wine" <&&> appName =? "leagueclient.exe"            --> doShift "League of Legends Client"
         , className  =? "Wine" <&&> appName =? "leagueclientux.exe"          --> doShift "League of Legends Client"
