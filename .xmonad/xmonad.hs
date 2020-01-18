@@ -21,10 +21,12 @@ import XMonad.Hooks.EwmhDesktops(ewmh, fullscreenEventHook)
 import XMonad.Hooks.ManageDocks(avoidStruts, manageDocks, docks)
 import XMonad.Hooks.ManageHelpers(isFullscreen, doFullFloat)
 import XMonad.Hooks.UrgencyHook
+import XMonad.Hooks.DynamicProperty
 
 -- utils
 import XMonad.Util.SpawnOnce
 import XMonad.Util.Run(safeSpawn, spawnPipe)
+import XMonad.Util.NamedScratchpad
 
 -- actions
 import XMonad.Actions.Minimize
@@ -46,7 +48,7 @@ main = do
                     , mouseBindings      = myMouseBindings
                     , layoutHook         = myLayout
                     , manageHook         = myManageHook
-                    , handleEventHook    = fullscreenEventHook
+                    , handleEventHook    = fullscreenEventHook <+> manageSpotify
                     , startupHook        = myStartupHook
                     , workspaces         = myWorkspaces'
                     , normalBorderColor  = normalBorderColor'
@@ -115,6 +117,15 @@ myWorkspaces' = (map snd myWorkspaces)
 
 -------------------------------------------------------------------------------
 
+-- Scrathpad
+scratchpad = [ NS "Spotify" "spotify" ( className =? "Spotify" ) defaultFloating ]
+
+manageSpotify = dynamicPropertyChange "WM_CLASS" (className =? "Spotify" --> centerFloat)
+        where 
+                centerFloat  = customFloating $ W.RationalRect (1/10) (1/10) (8/10) (8/10)
+
+-------------------------------------------------------------------------------
+
 -- Rules
 myManageHook = composeAll
         [ isFullscreen                                                       --> doFullFloat
@@ -127,7 +138,7 @@ myManageHook = composeAll
         , className  =? "Wine" <&&> appName =? "leagueclient.exe"            --> doShift "League of Legends Client"
         , className  =? "Wine" <&&> appName =? "leagueclientux.exe"          --> doShift "League of Legends Client"
         , className  =? "Wine" <&&> appName =? "league of legends.exe"       --> doShift "League of Legends Game"
-        ]
+        ] <+> namedScratchpadManageHook scratchpad
 
 -------------------------------------------------------------------------------
 
@@ -180,6 +191,9 @@ myKeys conf@(XConfig {modMask = modMask}) = M.fromList $
         , ((0,                     xK_Print                ), spawn "sleep 0.2 && scrot -q 100 '%d-%m-%Y-%H:%M:%S_$wx$h_screenshot.png' -e 'mv $f ~/PrintScreens'")
         , ((controlMask,           xK_Print                ), spawn "sleep 0.2 && scrot -s -q 100 -f '%d-%m-%Y-%H:%M:%S_$wx$h_screenshot.png' -e 'mv $f ~/PrintScreens'")
 
+        -- scratchpad
+        , ((modMask,               xK_p                    ), namedScratchpadAction scratchpad "Spotify")
+
         -- close focused window
         , ((modMask,               xK_BackSpace            ), kill)
 
@@ -213,7 +227,7 @@ myMouseBindings (XConfig {modMask = modMask}) = M.fromList $
 -- StartupHook
 myStartupHook = do
         spawnOnce "picom --config ~/.config/picom/compton.conf"
-        spawnOnce "feh --no-fehbg --bg-fill ~/.backgrounds/Riven-Picture.png"
+        spawnOnce "feh --no-fehbg --bg-fill ~/.backgrounds/fluttershy.jpg"
         spawnOnce "xsetroot -cursor_name left_ptr"
 
 -------------------------------------------------------------------------------

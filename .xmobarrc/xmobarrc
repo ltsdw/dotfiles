@@ -1,4 +1,5 @@
 -- vim: set filetype=haskell :
+
 Config  { font               = "xft:HanaMinA:Black:pixelsize=10, xtf:NotoSansNabataean:Regular:pixelsize=11, xtf:DroidSansJapanese::pixelsize=11"
         , bgColor            = "#040404"
         , fgColor            = "#8b8b8b"
@@ -12,11 +13,11 @@ Config  { font               = "xft:HanaMinA:Black:pixelsize=10, xtf:NotoSansNab
                                                , "-n", "#f6ff00"
                                                ] 30
 
-                     , Run Network "enp0s20u1" [ "-L", "40", "-l", "#446866"
-                                               , "-H", "50", "-h", "#04e715"
-                                               ] 10
+--                     , Run Network "enp0s20u1" [ "-L", "40", "-l", "#446866"
+--                                             , "-H", "50", "-h", "#04e715"
+--                                               ] 10
 
-                     , Run Network "wlp3s0"    [ "-L", "40", "-l", "#446866"
+                     , Run Network "wlp0s20u1" [ "-L", "40", "-l", "#446866"
                                                , "-H", "50", "-h", "#04e715"
                                                ] 10
 
@@ -57,5 +58,5 @@ Config  { font               = "xft:HanaMinA:Black:pixelsize=10, xtf:NotoSansNab
 
         , sepChar = "%"
         , alignSep = "}{"
-        , template = "%StdinReader% }{ %thermal1%<fc=#00fbff> 〱 </fc>CPU: %multicpu%<fc=#00fbff> 〱 </fc>%memory% - %swap%<fc=#00fbff> 〱 </fc>%enp0s20u1% - %wlp3s0%<fc=#00fbff> 〱 </fc>%myaudio%<fc=#00fbff> 〱 </fc>%mydate%<fc=#00fbff> 〱 </fc><fc=#bcbcbc>%kbd%</fc><fc=#00fbff> 〱 </fc>[%battery%]" 
+        , template = "%StdinReader% }{ %thermal1%<fc=#00fbff> 〱 </fc>CPU: %multicpu%<fc=#00fbff> 〱 </fc>%memory% - %swap%<fc=#00fbff> 〱 </fc>%wlp0s20u1%<fc=#00fbff> 〱 </fc>%myaudio%<fc=#00fbff> 〱 </fc>%mydate%<fc=#00fbff> 〱 </fc><fc=#bcbcbc>%kbd%</fc><fc=#00fbff> 〱 </fc>[%battery%]" 
         }
