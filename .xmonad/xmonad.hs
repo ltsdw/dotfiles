@@ -1,5 +1,6 @@
 import XMonad
 import System.IO(hPutStrLn)
+import Data.List(isInfixOf)
 import Graphics.X11.ExtraTypes.XF86
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
@@ -109,8 +110,8 @@ myNav2DConfig = def
 myWorkspaces = [ (xK_1, "1"), (xK_2, "2"), (xK_3, "3"), (xK_4, "4"), (xK_5, "5")
                , (xK_6, "6"), (xK_7, "7"), (xK_8, "8"), (xK_9, "9")
                , (xK_n, "Firefox"), (xK_a, "Anki e Estudos")
-               , (xK_c, "League of Legends Client"), (xK_g, "League of Legends Game")
-               , (xK_o, "Origin")
+               , (xK_c, "League of Legends Client"), (xK_l, "League of Legends Game")
+               , (xK_o, "Origin"), (xK_g, "Steam APP")
                ]
 
 myWorkspaces' = (map snd myWorkspaces)
@@ -126,18 +127,22 @@ manageSpotify = dynamicPropertyChange "WM_CLASS" (className =? "Spotify" --> cen
 
 -------------------------------------------------------------------------------
 
+-- Like '=?' but matches substrings.
+q =?? x = fmap (isInfixOf x) q
+
 -- Rules
 myManageHook = composeAll
         [ isFullscreen                                                       --> doFullFloat
-        , className  =? "St"                                                 --> doShift "1"
-        , className  =? "firefox"                                            --> doShift "Firefox"
-        , className  =? "Anki"                                               --> doShift "Anki e Estudos"
-        , className  =? "Wine"                                               --> hasBorder False
-        , className  =? "Wine" <&&> appName =? "origin.exe"                  --> doFloat <+> doShift "Origin"
-        , className  =? "Wine" <&&> appName =? "riotclientux.exe"            --> doShift "League of Legends Client"
-        , className  =? "Wine" <&&> appName =? "leagueclient.exe"            --> doShift "League of Legends Client"
-        , className  =? "Wine" <&&> appName =? "leagueclientux.exe"          --> doShift "League of Legends Client"
-        , className  =? "Wine" <&&> appName =? "league of legends.exe"       --> doShift "League of Legends Game"
+        , className  =?  "St"                                                 --> doShift "1"
+        , className  =?  "firefox"                                            --> doShift "Firefox"
+        , className  =?  "Anki"                                               --> doShift "Anki e Estudos"
+        , className  =?  "Wine"                                               --> hasBorder False
+        , className  =?? "steam_app"                                          --> doShift "Steam APP"
+        , className  =?  "Wine" <&&> appName =? "origin.exe"                  --> doFloat <+> doShift "Origin"
+        , className  =?  "Wine" <&&> appName =? "riotclientux.exe"            --> doShift "League of Legends Client"
+        , className  =?  "Wine" <&&> appName =? "leagueclient.exe"            --> doShift "League of Legends Client"
+        , className  =?  "Wine" <&&> appName =? "leagueclientux.exe"          --> doShift "League of Legends Client"
+        , className  =?  "Wine" <&&> appName =? "league of legends.exe"       --> doShift "League of Legends Game"
         ] <+> namedScratchpadManageHook scratchpad
 
 -------------------------------------------------------------------------------
@@ -168,8 +173,8 @@ myKeys conf@(XConfig {modMask = modMask}) = M.fromList $
         , ((modMask,               xK_KP_Add               ), withLastMinimized maximizeWindowAndFocus)
 
         -- bright
-        , ((0,                     xF86XK_MonBrightnessUp  ), spawn "xbacklight +5")
-        , ((0,                     xF86XK_MonBrightnessDown), spawn "xbacklight -5")
+        , ((0,                     xF86XK_MonBrightnessUp  ), spawn "xbacklight +2")
+        , ((0,                     xF86XK_MonBrightnessDown), spawn "xbacklight -2")
 
         -- volume
         , ((0,                     xF86XK_AudioRaiseVolume ), spawn "pactl set-sink-volume @DEFAULT_SINK@ +10%")

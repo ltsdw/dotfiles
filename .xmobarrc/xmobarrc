@@ -45,7 +45,7 @@ Config  { font               = "xft:HanaMinA:Black:pixelsize=10, xtf:NotoSansNab
                                                , "-H", "-5" , "-h", "#04e715"
                                                , "-m", "#04e7dc"
                                                , "-a", "notify-send -u critical 'Bateria baixa conecte ao carregador!'"
-                                               , "-A", "3"
+                                               , "-A", "15"
                                                ] 10
 
                      , Run Com "datef"         [] "mydate" 600
@@ -53,7 +53,7 @@ Config  { font               = "xft:HanaMinA:Black:pixelsize=10, xtf:NotoSansNab
                      , Run Com "volume-pulseaudio" [] "myaudio" 10
 
                      , Run StdinReader
-                     , Run Kbd  [("pt_br", "jp")]
+                     , Run Kbd  [("BR", "JP")]
                      ]
 
         , sepChar = "%"
