@@ -132,7 +132,7 @@ q =?? x = fmap (isInfixOf x) q
 
 -- Rules
 myManageHook = composeAll
-        [ isFullscreen                                                       --> doFullFloat
+        [ isFullscreen                                                        --> doFullFloat
         , className  =?  "St"                                                 --> doShift "1"
         , className  =?  "firefox"                                            --> doShift "Firefox"
         , className  =?  "Anki"                                               --> doShift "Anki e Estudos"
