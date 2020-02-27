@@ -107,11 +107,10 @@ myNav2DConfig = def
 -------------------------------------------------------------------------------
 
 -- Workspaces
-myWorkspaces = [ (xK_1, "1"), (xK_2, "2"), (xK_3, "3"), (xK_4, "4"), (xK_5, "5")
-               , (xK_6, "6"), (xK_7, "7"), (xK_8, "8"), (xK_9, "9")
+myWorkspaces = [ (xK_1, "1"), (xK_2, "2"), (xK_3, "3")
                , (xK_n, "Firefox"), (xK_a, "Anki e Estudos")
                , (xK_c, "League of Legends Client"), (xK_l, "League of Legends Game")
-               , (xK_o, "Origin"), (xK_g, "Steam APP")
+               , (xK_o, "Origin"), (xK_g, "Steam APP"), (xK_4, "Steam")
                ]
 
 myWorkspaces' = (map snd myWorkspaces)
@@ -137,7 +136,8 @@ myManageHook = composeAll
         , className  =?  "firefox"                                            --> doShift "Firefox"
         , className  =?  "Anki"                                               --> doShift "Anki e Estudos"
         , className  =?  "Wine"                                               --> hasBorder False
-        , className  =?? "steam_app"                                          --> doShift "Steam APP"
+        , className  =?  "Steam"                                              --> doShift "Steam"
+        , className  =?? "steam_app"                                          --> doShift "Steam APP" <+> hasBorder False
         , className  =?  "Wine" <&&> appName =? "origin.exe"                  --> doFloat <+> doShift "Origin"
         , className  =?  "Wine" <&&> appName =? "riotclientux.exe"            --> doShift "League of Legends Client"
         , className  =?  "Wine" <&&> appName =? "leagueclient.exe"            --> doShift "League of Legends Client"
@@ -173,8 +173,8 @@ myKeys conf@(XConfig {modMask = modMask}) = M.fromList $
         , ((modMask,               xK_KP_Add               ), withLastMinimized maximizeWindowAndFocus)
 
         -- bright
-        , ((0,                     xF86XK_MonBrightnessUp  ), spawn "xbacklight +2")
-        , ((0,                     xF86XK_MonBrightnessDown), spawn "xbacklight -2")
+        , ((0,                     xF86XK_MonBrightnessUp  ), spawn "light -A 2")
+        , ((0,                     xF86XK_MonBrightnessDown), spawn "light -U 2")
 
         -- volume
         , ((0,                     xF86XK_AudioRaiseVolume ), spawn "pactl set-sink-volume @DEFAULT_SINK@ +10%")
@@ -193,8 +193,8 @@ myKeys conf@(XConfig {modMask = modMask}) = M.fromList $
         , ((modMask .|. shiftMask, xK_l                    ), windowSwap R False)
 
         -- screenshot
-        , ((0,                     xK_Print                ), spawn "sleep 0.2 && scrot -q 100 '%d-%m-%Y-%H:%M:%S_$wx$h_screenshot.png' -e 'mv $f ~/PrintScreens'")
-        , ((controlMask,           xK_Print                ), spawn "sleep 0.2 && scrot -s -q 100 -f '%d-%m-%Y-%H:%M:%S_$wx$h_screenshot.png' -e 'mv $f ~/PrintScreens'")
+        , ((0,                     xK_Print                ), spawn "sleep 0.2 && scrot -q 100 'Screenshot-%d-%m-%Y_%H-%M-%S.png' -e 'mv $f ~/PrintScreens'")
+        , ((controlMask,           xK_Print                ), spawn "sleep 0.2 && scrot -s -q 100 -f 'Screenshot-%d-%m-%Y_%H-%M-%S.png' -e 'mv $f ~/PrintScreens'")
 
         -- scratchpad
         , ((modMask,               xK_p                    ), namedScratchpadAction scratchpad "Spotify")

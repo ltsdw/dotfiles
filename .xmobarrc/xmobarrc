@@ -1,6 +1,6 @@
--- vim: set filetype=haskell :
+-- vim:set filetype=haskell:
 
-Config  { font               = "xft:HanaMinA:Black:pixelsize=10, xtf:NotoSansNabataean:Regular:pixelsize=11, xtf:DroidSansJapanese::pixelsize=11"
+Config  { font               = "xft:HanaMinA:Black:pixelsize=10"
         , bgColor            = "#040404"
         , fgColor            = "#8b8b8b"
         , position           = Bottom
@@ -38,7 +38,7 @@ Config  { font               = "xft:HanaMinA:Black:pixelsize=10, xtf:NotoSansNab
                                                , "-L", "10"
                                                , "-H", "80"
                                                , "-p", "3"
-                                               , "--"
+                                               , "--", "-f", "ACAD/online"
                                                , "-O", "<fc=#04e715>On</fc> - "
                                                , "-i", ""
                                                , "-L", "-15", "-l", "#ff0800"
@@ -46,7 +46,7 @@ Config  { font               = "xft:HanaMinA:Black:pixelsize=10, xtf:NotoSansNab
                                                , "-m", "#04e7dc"
                                                , "-a", "notify-send -u critical 'Bateria baixa conecte ao carregador!'"
                                                , "-A", "15"
-                                               ] 10
+                                               ] 50
 
                      , Run Com "datef"         [] "mydate" 600
 
