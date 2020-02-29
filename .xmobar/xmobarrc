@@ -3,7 +3,7 @@
 Config  { font               = "xft:HanaMinA:Black:pixelsize=10"
         , bgColor            = "#040404"
         , fgColor            = "#8b8b8b"
-        , position           = Bottom
+        , position = Static { xpos = 5, ypos = 745, width = 1355, height = 20 }
         , alpha              = 200
         , overrideRedirect   = True
 
