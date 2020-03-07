@@ -12,8 +12,8 @@ import XMonad.Layout.SimpleFloat
 import XMonad.Layout.Minimize(minimize)
 import XMonad.Layout.PerWorkspace(onWorkspace)
 import XMonad.Layout.Spacing(spacingRaw, Border(Border))
-import XMonad.Layout.Fullscreen(fullscreenSupport, fullscreenFull)
-import XMonad.Layout.NoBorders(smartBorders, hasBorder)
+import XMonad.Layout.Fullscreen(fullscreenSupport, fullscreenFocus)
+import XMonad.Layout.NoBorders(noBorders, smartBorders, hasBorder)
 import XMonad.Layout.ToggleLayouts
 
 -- hooks
@@ -38,7 +38,7 @@ import qualified XMonad.Actions.FlexibleResize as Flex
 
 -- Main Function
 main = do
-        xmproc <- spawnPipe ("xmobar $HOME/.xmobarrc/xmobarrc")
+        xmproc <- spawnPipe ("xmobar $HOME/.xmobar/xmobarrc")
         xmonad  $ ewmh
                 $ docks
                 $ fullscreenSupport
@@ -46,6 +46,7 @@ main = do
                 $ defaultConfig
                     { modMask            = mod4Mask
                     , keys               = myKeys
+                    , terminal           = "st"
                     , mouseBindings      = myMouseBindings
                     , layoutHook         = myLayout
                     , manageHook         = myManageHook
@@ -61,8 +62,8 @@ main = do
 
 -- Pretty Printing
 myPP = xmobarPP
-        { ppCurrent = xmobarColor "#00ffe6" "" . wrap "  " "  "
-        , ppHidden  = xmobarColor "#6d6d6d" ""
+        { ppCurrent = xmobarColor "#00ffe6" "" . wrap "     " "     "
+        , ppHidden  = xmobarColor "#6d6d6d" "" . wrap " " " "
         , ppLayout  = xmobarColor "#6d6d6d" ""
         , ppTitle   = xmobarColor "#6d6d6d" "" . shorten 30
         , ppUrgent  = xmobarColor "#ff0000" ""
@@ -77,22 +78,19 @@ focusedBorderColor' = "#00ffcb"
 -------------------------------------------------------------------------------
 
 -- Spacing between windows
-gaps a b = spacingRaw True (Border a a a a) True (Border b b b b) True
-gaps' a b = spacingRaw False (Border a a a a) True (Border b b b b) True
+gaps a b = spacingRaw False (Border a a a a) True (Border b b b b) True
 
 -------------------------------------------------------------------------------
 
 -- Layout
 myLayout = toggleLayouts fullscreen myLayoutPerWorkspace
         where
-                myLayoutPerWorkspace = onWorkspace "1" grid' $
-                                       onWorkspace "League of Legends Game" smfloat
+                myLayoutPerWorkspace = onWorkspace "Steam App" smfloat
                                        grid
 
-                fullscreen  = named "FullNB" (minimize $ smartBorders (fullscreenFull Full))
-                smfloat     = named "SmpF"   (minimize $ smartBorders (fullscreenFull simpleFloat))
-                grid        = named "GridSS" (minimize $ smartBorders $ avoidStruts $ gaps 1 4 Grid)
-                grid'       = named "GridS"  (minimize $ smartBorders $ avoidStruts $ gaps' 1 4 Grid)
+                fullscreen  = named "FullNB" (minimize $ noBorders (fullscreenFocus Full))
+                smfloat     = named "SmpF"   (minimize $ smartBorders simpleFloat)
+                grid        = named "GridS"  (minimize $ smartBorders $ avoidStruts $ gaps 1 4 Grid)
 
 -------------------------------------------------------------------------------
 
@@ -109,8 +107,7 @@ myNav2DConfig = def
 -- Workspaces
 myWorkspaces = [ (xK_1, "1"), (xK_2, "2"), (xK_3, "3")
                , (xK_n, "Firefox"), (xK_a, "Anki e Estudos")
-               , (xK_c, "League of Legends Client"), (xK_l, "League of Legends Game")
-               , (xK_o, "Origin"), (xK_g, "Steam APP"), (xK_4, "Steam")
+               , (xK_o, "Origin"), (xK_g, "Steam App"), (xK_4, "Steam")
                ]
 
 myWorkspaces' = (map snd myWorkspaces)
@@ -131,18 +128,14 @@ q =?? x = fmap (isInfixOf x) q
 
 -- Rules
 myManageHook = composeAll
-        [ isFullscreen                                                        --> doFullFloat
-        , className  =?  "St"                                                 --> doShift "1"
-        , className  =?  "firefox"                                            --> doShift "Firefox"
-        , className  =?  "Anki"                                               --> doShift "Anki e Estudos"
-        , className  =?  "Wine"                                               --> hasBorder False
-        , className  =?  "Steam"                                              --> doShift "Steam"
-        , className  =?? "steam_app"                                          --> doShift "Steam APP" <+> hasBorder False
-        , className  =?  "Wine" <&&> appName =? "origin.exe"                  --> doFloat <+> doShift "Origin"
-        , className  =?  "Wine" <&&> appName =? "riotclientux.exe"            --> doShift "League of Legends Client"
-        , className  =?  "Wine" <&&> appName =? "leagueclient.exe"            --> doShift "League of Legends Client"
-        , className  =?  "Wine" <&&> appName =? "leagueclientux.exe"          --> doShift "League of Legends Client"
-        , className  =?  "Wine" <&&> appName =? "league of legends.exe"       --> doShift "League of Legends Game"
+        [ isFullscreen                                                           --> doFullFloat
+        , className  =?  "St"       <&&> title =? "st"                           --> doShift "1"
+        , className  =?  "firefox"                                               --> doShift "Firefox"
+        , className  =?  "Anki"                                                  --> doShift "Anki e Estudos"
+        , className  =?  "Wine"                                                  --> hasBorder False
+        , className  =?  "Steam"                                                 --> doShift "Steam"
+        , className  =?  "steam_app_0" <&&> appName =? "bethesda.net_launcher.exe"   --> doShift "Steam App" <+> hasBorder False
+        , className  =?? "steam_app"                                             --> doShift "Steam App" <+> hasBorder False
         ] <+> namedScratchpadManageHook scratchpad
 
 -------------------------------------------------------------------------------
@@ -160,7 +153,7 @@ myKeys conf@(XConfig {modMask = modMask}) = M.fromList $
         , ((modMask .|. shiftMask, xK_r                    ), spawn "xmonad --recompile && xmonad --restart")
 
         -- toggle fullscreen
-        , ((modMask,               xK_f                    ), sendMessage (Toggle "FullNB"))
+        , ((modMask,               xK_f                    ), sequence_ [ withFocused $ windows . W.sink, sendMessage (Toggle "FullNB")])
 
         -- make focused window float
         , ((modMask .|. shiftMask, xK_space                ), withFocused $ \w -> floatLocation w >>= windows . W.float w . snd)

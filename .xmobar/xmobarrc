@@ -1,10 +1,9 @@
 -- vim:set filetype=haskell:
 
-Config  { font               = "xft:HanaMinA:Black:pixelsize=10"
-        , bgColor            = "#040404"
+Config  { font               = "xft:Source Han Sans JP:Bold:pixelsize=10"
         , fgColor            = "#8b8b8b"
         , position           = Static { xpos = 5, ypos = 745, width = 1355, height = 20 }
-        , alpha              = 200
+        , alpha              = 150
         , overrideRedirect   = True
 
         , commands = [ Run ThermalZone 1       [ "-t", "<temp> Cº"
