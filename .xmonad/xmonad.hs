@@ -128,14 +128,14 @@ q =?? x = fmap (isInfixOf x) q
 
 -- Rules
 myManageHook = composeAll
-        [ isFullscreen                                                           --> doFullFloat
-        , className  =?  "St"       <&&> title =? "st"                           --> doShift "1"
-        , className  =?  "firefox"                                               --> doShift "Firefox"
-        , className  =?  "Anki"                                                  --> doShift "Anki e Estudos"
-        , className  =?  "Wine"                                                  --> hasBorder False
-        , className  =?  "Steam"                                                 --> doShift "Steam"
-        , className  =?  "steam_app_0" <&&> appName =? "bethesda.net_launcher.exe"   --> doShift "Steam App" <+> hasBorder False
-        , className  =?? "steam_app"                                             --> doShift "Steam App" <+> hasBorder False
+        [ isFullscreen                                                             --> doFullFloat
+        , className  =?  "St"       <&&> title =? "st"                             --> doShift "1"
+        , className  =?  "firefox"                                                 --> doShift "Firefox"
+        , className  =?  "Anki"                                                    --> doShift "Anki e Estudos"
+        , className  =?  "Wine"                                                    --> hasBorder False
+        , className  =?  "Steam"                                                   --> doShift "Steam"
+        , className  =?  "steam_app_0" <&&> appName =? "bethesda.net_launcher.exe" --> doShift "Steam App" <+> hasBorder False
+        , className  =?? "steam_app"                                               --> doShift "Steam App" <+> hasBorder False
         ] <+> namedScratchpadManageHook scratchpad
 
 -------------------------------------------------------------------------------
